@@ -638,6 +638,13 @@
                         <label for="selectedYear">Año:</label>
                         <select id="selectedYear"></select>
                     </div>
+                    <!-- Added checkbox to make work/rest rules optional -->
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="useWorkRestRules" style="width: auto;">
+                            Aplicar reglas de días consecutivos (trabajo/descanso)
+                        </label>
+                    </div>
                     <div class="form-group">
                         <label for="workDays">Días seguidos a trabajar:</label>
                         <input type="number" id="workDays" value="3" min="1" max="10">
@@ -973,6 +980,12 @@
         }
 
         function canWorkOnDay(employeeName, day) {
+            const useRules = document.getElementById('useWorkRestRules').checked;
+            
+            if (!useRules) {
+                return true; // No restrictions if rules are disabled
+            }
+            
             // Check if employee worked in the last 3 days or will work in next 3 days
             const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
             
@@ -992,90 +1005,174 @@
         function assignShiftsWithCoverage() {
             const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
             
-            // Initialize schedule for all employees
-            employees.forEach(employee => {
-                schedule[employee.name] = {};
+            const useWorkRestRules = document.getElementById('useWorkRestRules').checked;
+            
+            // Initialize schedule
+            schedule = {};
+            employees.forEach(emp => {
+                schedule[emp.name] = {};
                 for (let day = 1; day <= daysInMonth; day++) {
-                    schedule[employee.name][day] = '';
+                    schedule[emp.name][day] = 'L'; // Start all as free
                 }
             });
 
-            // First, handle weekdays-only employee (fixed employee)
-            const weekdayEmployee = employees.find(emp => emp.weekdaysOnly);
-            if (weekdayEmployee) {
+            // First, assign the fixed weekdays-only employee
+            const fixedEmployee = employees.find(emp => emp.weekdaysOnly && emp.group === 1);
+            if (fixedEmployee) {
                 for (let day = 1; day <= daysInMonth; day++) {
-                    const isHol = isHoliday(currentYear, currentMonth, day);
-                    const isWeek = isWeekend(currentYear, currentMonth, day);
+                    const isWeekendDay = isWeekend(currentYear, currentMonth, day);
+                    const isHolidayDay = isHoliday(currentYear, currentMonth, day);
                     
-                    if (isWeek || isHol) {
-                        schedule[weekdayEmployee.name][day] = 'L';
-                    } else {
-                        schedule[weekdayEmployee.name][day] = 'D';
+                    if (!isWeekendDay && !isHolidayDay) {
+                        schedule[fixedEmployee.name][day] = 'D'; // Always day shift on weekdays
                     }
+                    // Weekends and holidays remain 'L' (free)
                 }
             }
 
+            // Separate employees by group (excluding the fixed employee for rotation)
+            const group1 = employees.filter(emp => emp.group === 1 && !(emp.weekdaysOnly && emp === fixedEmployee));
+            const group2 = employees.filter(emp => emp.group === 2);
+            const group3 = employees.filter(emp => emp.group === 3);
+
+            // Track consecutive work days for each employee (only if rules enabled)
+            const consecutiveWork = {};
+            const consecutiveRest = {};
+            employees.forEach(emp => {
+                consecutiveWork[emp.name] = 0;
+                consecutiveRest[emp.name] = 0;
+            });
+
+            const workDays = parseInt(document.getElementById('workDays').value) || 3;
+            const restDays = parseInt(document.getElementById('restDays').value) || 2;
+
+            // For each day, assign required staff per group and shift
             for (let day = 1; day <= daysInMonth; day++) {
-                const isHol = isHoliday(currentYear, currentMonth, day);
-                const isWeek = isWeekend(currentYear, currentMonth, day);
-                const isWeekendOrHoliday = isWeek || isHol;
-
-                // Day shift
+                const isWeekendOrHoliday = isWeekend(currentYear, currentMonth, day) || isHoliday(currentYear, currentMonth, day);
+                
+                // Get required staff for day and night shifts
                 const dayRequired = getRequiredStaff(isWeekendOrHoliday, 'D');
-                let dayAssigned = { 1: 0, 2: 0, 3: 0 };
-
-                // Night shift
                 const nightRequired = getRequiredStaff(isWeekendOrHoliday, 'N');
-                let nightAssigned = { 1: 0, 2: 0, 3: 0 };
 
-                if (weekdayEmployee && !isWeekendOrHoliday && schedule[weekdayEmployee.name][day] === 'D') {
-                    dayAssigned[1] = 1; // Fixed employee already covers 1 spot
-                }
-
-                // Available employees by group (excluding weekdays-only on weekends/holidays and respecting rest periods)
-                const availableByGroup = { 1: [], 2: [], 3: [] };
-                employees.forEach(emp => {
-                    if (schedule[emp.name][day]) return; // Already assigned
-                    if (emp.weekdaysOnly && (isWeekendOrHoliday)) return; // Weekdays-only employee already handled or not available on weekends/holidays
-                    if (!canWorkOnDay(emp.name, day)) return; // Needs rest
-                    availableByGroup[emp.group].push(emp);
-                });
-
-                // Assign day shifts
-                for (let group = 1; group <= 3; group++) {
-                    const needed = dayRequired[group] - dayAssigned[group]; // Account for already assigned
-                    const available = availableByGroup[group];
-                    
-                    for (let i = 0; i < needed && i < available.length; i++) {
-                        schedule[available[i].name][day] = 'D';
-                        dayAssigned[group]++;
+                // Assign shifts for Group 1
+                let g1DayCount = fixedEmployee && !isWeekendOrHoliday ? 1 : 0; // Count fixed employee if working
+                const availableG1 = group1.filter(emp => schedule[emp.name][day] === 'L');
+                
+                // Day shift group 1 (need to reach dayRequired[1] total, including fixed employee)
+                const g1DayNeeded = dayRequired[1] - g1DayCount;
+                for (let i = 0; i < g1DayNeeded && i < availableG1.length; i++) {
+                    const emp = availableG1[i];
+                    if (useWorkRestRules && consecutiveWork[emp.name] >= workDays) {
+                        continue; // Needs rest
+                    }
+                    schedule[emp.name][day] = 'D';
+                    if (useWorkRestRules) {
+                        consecutiveWork[emp.name]++;
+                        consecutiveRest[emp.name] = 0;
                     }
                 }
 
-                // Refresh available list (remove those assigned to day shift)
-                for (let group = 1; group <= 3; group++) {
-                    availableByGroup[group] = availableByGroup[group].filter(emp => 
-                        schedule[emp.name][day] !== 'D'
-                    );
-                }
-
-                // Assign night shifts
-                for (let group = 1; group <= 3; group++) {
-                    const needed = nightRequired[group];
-                    const available = availableByGroup[group];
-                    
-                    for (let i = 0; i < needed && i < available.length; i++) {
-                        schedule[available[i].name][day] = 'N';
-                        nightAssigned[group]++;
+                // Night shift group 1
+                const availableG1Night = group1.filter(emp => schedule[emp.name][day] === 'L');
+                for (let i = 0; i < nightRequired[1] && i < availableG1Night.length; i++) {
+                    const emp = availableG1Night[i];
+                    if (useWorkRestRules && consecutiveWork[emp.name] >= workDays) {
+                        continue;
+                    }
+                    schedule[emp.name][day] = 'N';
+                    if (useWorkRestRules) {
+                        consecutiveWork[emp.name]++;
+                        consecutiveRest[emp.name] = 0;
                     }
                 }
 
-                // Mark remaining as free
-                employees.forEach(emp => {
-                    if (!schedule[emp.name][day]) {
-                        schedule[emp.name][day] = 'L';
+                // Update rest days for Group 1 employees who didn't work
+                if (useWorkRestRules) {
+                    group1.forEach(emp => {
+                        if (schedule[emp.name][day] === 'L') {
+                            consecutiveRest[emp.name]++;
+                            if (consecutiveRest[emp.name] >= restDays) {
+                                consecutiveWork[emp.name] = 0; // Reset work counter after sufficient rest
+                            }
+                        }
+                    });
+                }
+
+                // Assign shifts for Group 2
+                const availableG2Day = group2.filter(emp => schedule[emp.name][day] === 'L');
+                for (let i = 0; i < dayRequired[2] && i < availableG2Day.length; i++) {
+                    const emp = availableG2Day[i];
+                    if (useWorkRestRules && consecutiveWork[emp.name] >= workDays) {
+                        continue;
                     }
-                });
+                    schedule[emp.name][day] = 'D';
+                    if (useWorkRestRules) {
+                        consecutiveWork[emp.name]++;
+                        consecutiveRest[emp.name] = 0;
+                    }
+                }
+
+                const availableG2Night = group2.filter(emp => schedule[emp.name][day] === 'L');
+                for (let i = 0; i < nightRequired[2] && i < availableG2Night.length; i++) {
+                    const emp = availableG2Night[i];
+                    if (useWorkRestRules && consecutiveWork[emp.name] >= workDays) {
+                        continue;
+                    }
+                    schedule[emp.name][day] = 'N';
+                    if (useWorkRestRules) {
+                        consecutiveWork[emp.name]++;
+                        consecutiveRest[emp.name] = 0;
+                    }
+                }
+
+                if (useWorkRestRules) {
+                    group2.forEach(emp => {
+                        if (schedule[emp.name][day] === 'L') {
+                            consecutiveRest[emp.name]++;
+                            if (consecutiveRest[emp.name] >= restDays) {
+                                consecutiveWork[emp.name] = 0;
+                            }
+                        }
+                    });
+                }
+
+                // Assign shifts for Group 3
+                const availableG3Day = group3.filter(emp => schedule[emp.name][day] === 'L');
+                for (let i = 0; i < dayRequired[3] && i < availableG3Day.length; i++) {
+                    const emp = availableG3Day[i];
+                    if (useWorkRestRules && consecutiveWork[emp.name] >= workDays) {
+                        continue;
+                    }
+                    schedule[emp.name][day] = 'D';
+                    if (useWorkRestRules) {
+                        consecutiveWork[emp.name]++;
+                        consecutiveRest[emp.name] = 0;
+                    }
+                }
+
+                const availableG3Night = group3.filter(emp => schedule[emp.name][day] === 'L');
+                for (let i = 0; i < nightRequired[3] && i < availableG3Night.length; i++) {
+                    const emp = availableG3Night[i];
+                    if (useWorkRestRules && consecutiveWork[emp.name] >= workDays) {
+                        continue;
+                    }
+                    schedule[emp.name][day] = 'N';
+                    if (useWorkRestRules) {
+                        consecutiveWork[emp.name]++;
+                        consecutiveRest[emp.name] = 0;
+                    }
+                }
+
+                if (useWorkRestRules) {
+                    group3.forEach(emp => {
+                        if (schedule[emp.name][day] === 'L') {
+                            consecutiveRest[emp.name]++;
+                            if (consecutiveRest[emp.name] >= restDays) {
+                                consecutiveWork[emp.name] = 0;
+                            }
+                        }
+                    });
+                }
             }
         }
         // </CHANGE>
