@@ -953,21 +953,40 @@
         }
 
         function getRequiredStaff(isWeekendOrHoliday, shift) {
-            // Returns an object with minimum staff needed: {group1: X, group2: Y, group3: Z}
+            // GRUPO 1: L-V Día: 3 (con fijo), L-V Noche: 2, F.Semana/Festivos Día: 2, Noche: 2
+            // GRUPO 2: L-V Día: 1, L-V Noche: 1, F.Semana/Festivos Día: 2, Noche: 1
+            // GRUPO 3: Todos los días Día: 1, Noche: 1
             if (shift === 'D') {
                 // Day shift
                 if (isWeekendOrHoliday) {
-                    // Weekend/Holiday morning: 1 from group 1, 2 from group 2, 1 from group 3
-                    return { 1: 1, 2: 2, 3: 1 };
+                    // Weekend/Holiday morning: 2 from group 1, 2 from group 2, 1 from group 3
+                    return { 1: 2, 2: 2, 3: 1 };
                 } else {
-                    // Weekday morning: 3 from group 1, 1 from group 2, 1 from group 3
+                    // Weekday morning: 3 from group 1 (including fixed employee), 1 from group 2, 1 from group 3
                     return { 1: 3, 2: 1, 3: 1 };
                 }
             } else if (shift === 'N') {
-                // Night shift (same for all days): 2 from group 1, 1 from group 2, 1 from group 3
+                // Night shift: 2 from group 1, 1 from group 2, 1 from group 3 (all days)
                 return { 1: 2, 2: 1, 3: 1 };
             }
             return { 1: 0, 2: 0, 3: 0 };
+        }
+
+        function canWorkOnDay(employeeName, day) {
+            // Check if employee worked in the last 3 days or will work in next 3 days
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            // Look back 3 days
+            for (let i = 1; i <= 3; i++) {
+                const checkDay = day - i;
+                if (checkDay >= 1) {
+                    const value = schedule[employeeName] && schedule[employeeName][checkDay];
+                    if (value === 'D' || value === 'N') {
+                        return false; // Worked recently, needs rest
+                    }
+                }
+            }
+            return true;
         }
 
         function assignShiftsWithCoverage() {
@@ -981,7 +1000,7 @@
                 }
             });
 
-            // First, handle weekdays-only employee
+            // First, handle weekdays-only employee (fixed employee)
             const weekdayEmployee = employees.find(emp => emp.weekdaysOnly);
             if (weekdayEmployee) {
                 for (let day = 1; day <= daysInMonth; day++) {
@@ -996,7 +1015,6 @@
                 }
             }
 
-            // For each day, assign shifts respecting coverage requirements
             for (let day = 1; day <= daysInMonth; day++) {
                 const isHol = isHoliday(currentYear, currentMonth, day);
                 const isWeek = isWeekend(currentYear, currentMonth, day);
@@ -1010,18 +1028,22 @@
                 const nightRequired = getRequiredStaff(isWeekendOrHoliday, 'N');
                 let nightAssigned = { 1: 0, 2: 0, 3: 0 };
 
-                // Available employees by group (excluding weekdays-only on weekends/holidays)
+                if (weekdayEmployee && !isWeekendOrHoliday && schedule[weekdayEmployee.name][day] === 'D') {
+                    dayAssigned[1] = 1; // Fixed employee already covers 1 spot
+                }
+
+                // Available employees by group (excluding weekdays-only on weekends/holidays and respecting rest periods)
                 const availableByGroup = { 1: [], 2: [], 3: [] };
                 employees.forEach(emp => {
-                    if (emp.weekdaysOnly) return; // Already assigned
-                    if (!schedule[emp.name][day]) {
-                        availableByGroup[emp.group].push(emp);
-                    }
+                    if (schedule[emp.name][day]) return; // Already assigned
+                    if (emp.weekdaysOnly && (isWeekendOrHoliday)) return; // Weekdays-only employee already handled or not available on weekends/holidays
+                    if (!canWorkOnDay(emp.name, day)) return; // Needs rest
+                    availableByGroup[emp.group].push(emp);
                 });
 
                 // Assign day shifts
                 for (let group = 1; group <= 3; group++) {
-                    const needed = dayRequired[group];
+                    const needed = dayRequired[group] - dayAssigned[group]; // Account for already assigned
                     const available = availableByGroup[group];
                     
                     for (let i = 0; i < needed && i < available.length; i++) {
@@ -1072,35 +1094,83 @@
 
             setTimeout(() => {
                 assignShiftsWithCoverage();
-                // </CHANGE>
 
                 const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                
+                // Calculate current hours for each employee
+                const hoursCount = {};
+                employees.forEach(emp => {
+                    hoursCount[emp.name] = 0;
+                    for (let day = 1; day <= daysInMonth; day++) {
+                        const value = schedule[emp.name] && schedule[emp.name][day];
+                        if (value === 'D' || value === 'N') {
+                            hoursCount[emp.name] += 12;
+                        }
+                    }
+                });
+
+                // First pass: Ensure everyone reaches 168 hours minimum
+                let attempts = 0;
+                const maxAttempts = 100;
+                while (attempts < maxAttempts) {
+                    let allAtMinimum = true;
+                    
+                    for (const emp of employees) {
+                        if (hoursCount[emp.name] < MIN_HOURS_PER_MONTH) {
+                            allAtMinimum = false;
+                            
+                            // Try to find a free day where they can work
+                            for (let day = 1; day <= daysInMonth; day++) {
+                                const currentValue = schedule[emp.name][day];
+                                
+                                if (currentValue === 'L') {
+                                    // Check if it's not a weekend/holiday for weekdays-only employees
+                                    if (emp.weekdaysOnly && (isWeekend(currentYear, currentMonth, day) || isHoliday(currentYear, currentMonth, day))) {
+                                        continue;
+                                    }
+                                    
+                                    // Check 3-day rest rule
+                                    if (!canWorkOnDay(emp.name, day)) {
+                                        continue;
+                                    }
+                                    
+                                    // Assign a shift (prefer day shift)
+                                    schedule[emp.name][day] = 'D';
+                                    hoursCount[emp.name] += 12;
+                                    
+                                    if (hoursCount[emp.name] >= MIN_HOURS_PER_MONTH) {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (allAtMinimum) break;
+                    attempts++;
+                }
+
+                // Second pass: Distribute extra hours to employees who want them
                 const employeesWantingExtra = employees.filter(emp => emp.wantsExtraHours);
                 
                 if (employeesWantingExtra.length > 0) {
-                    // Calculate current hours for each employee
-                    const hoursCount = {};
-                    employees.forEach(emp => {
-                        hoursCount[emp.name] = 0;
-                        for (let day = 1; day <= daysInMonth; day++) {
-                            const value = schedule[emp.name][day];
-                            if (value === 'D' || value === 'N') {
-                                hoursCount[emp.name] += 12;
-                            }
-                        }
-                    });
-
-                    // Distribute extra hours to employees who want them
                     let extraHoursDistributed = 0;
+                    const maxExtraShifts = 10; // Limit extra shifts
+                    
                     for (let day = 1; day <= daysInMonth; day++) {
-                        employeesWantingExtra.forEach(emp => {
-                            if (hoursCount[emp.name] >= MIN_HOURS_PER_MONTH) {
+                        for (const emp of employeesWantingExtra) {
+                            if (hoursCount[emp.name] >= MIN_HOURS_PER_MONTH && extraHoursDistributed < maxExtraShifts) {
                                 const currentValue = schedule[emp.name][day];
-                                // Convert some free days to shifts for extra hours
-                                if (currentValue === 'L' && extraHoursDistributed < 5) {
+                                
+                                if (currentValue === 'L') {
                                     // Check if it's not a weekend/holiday for weekdays-only employees
                                     if (emp.weekdaysOnly && (isWeekend(currentYear, currentMonth, day) || isHoliday(currentYear, currentMonth, day))) {
-                                        return;
+                                        continue;
+                                    }
+                                    
+                                    // Check 3-day rest rule
+                                    if (!canWorkOnDay(emp.name, day)) {
+                                        continue;
                                     }
                                     
                                     // Assign a shift
@@ -1110,9 +1180,10 @@
                                     extraHoursDistributed++;
                                 }
                             }
-                        });
+                        }
                     }
                 }
+                // </CHANGE>
 
                 document.getElementById('loading').style.display = 'none';
                 renderSchedule();
@@ -1190,7 +1261,7 @@
                         let totalHours = 0;
                         
                         for (let day = 1; day <= daysInMonth; day++) {
-                            const value = schedule[employee.name][day] || '';
+                            const value = schedule[employee.name] && schedule[employee.name][day] || '';
                             const isHol = isHoliday(currentYear, currentMonth, day);
                             const isWeek = isWeekend(currentYear, currentMonth, day);
                             const columnClass = (isWeek || isHol) ? 'weekend-column' : ''; // Changed class name to match CSS
@@ -1261,6 +1332,34 @@
             selectedCell = null;
         }
 
+        function updateEmployeeTotalHours(employeeName) {
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            let totalHours = 0;
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const value = schedule[employeeName] && schedule[employeeName][day];
+                if (value === 'D' || value === 'N') {
+                    totalHours += 12;
+                }
+            }
+            
+            // Find the total hours cell for this employee and update it
+            const table = document.getElementById('scheduleTable');
+            const rows = table.getElementsByTagName('tr');
+            
+            for (let row of rows) {
+                const firstCell = row.cells[0];
+                if (firstCell && firstCell.textContent.includes(employeeName)) {
+                    const totalCell = row.cells[row.cells.length - 1];
+                    const bgColor = totalHours < MIN_HOURS_PER_MONTH ? '#f8d7da' : '#d1e7dd';
+                    totalCell.style.background = bgColor;
+                    totalCell.textContent = `${totalHours}h`;
+                    break;
+                }
+            }
+        }
+        // </CHANGE>
+
         function setCellValue(value) {
             if (!selectedCell) return;
 
@@ -1272,21 +1371,20 @@
             
             // Actualizar clases
             selectedCell.className = 'day-cell';
-            if (isHoliday(currentYear, currentMonth, day)) {
-                selectedCell.classList.add('holiday');
+            const isWeek = isWeekend(currentYear, currentMonth, day);
+            const isHol = isHoliday(currentYear, currentMonth, day);
+            if (isWeek || isHol) {
+                selectedCell.classList.add(isHol ? 'holiday-column' : 'weekend-column'); // Apply correct class based on holiday or weekend
             }
-            // Apply weekend/holiday column coloring
-            const isWeekendDay = isWeekend(currentYear, currentMonth, day);
-            const isHolidayDay = isHoliday(currentYear, currentMonth, day);
-            if (isWeekendDay || isHolidayDay) {
-                 selectedCell.classList.add(isHolidayDay ? 'holiday-column' : 'weekend-column');
-            }
-
             if (value) {
                 selectedCell.classList.add(`shift-${value}`);
             }
-
+            
+            updateEmployeeTotalHours(employee);
+            // </CHANGE>
+            
             closeModal();
+            showAlert('Turno actualizado', 'success');
         }
 
         // Exportar a PDF
@@ -1322,7 +1420,7 @@
                         let totalHours = 0;
                         
                         for (let day = 1; day <= daysInMonth; day++) {
-                            const value = schedule[emp.name][day] || '';
+                            const value = schedule[emp.name] && schedule[emp.name][day] || '';
                             row.push(value);
                             
                             if (value === 'D' || value === 'N') {
@@ -1379,7 +1477,7 @@
                         let totalHours = 0;
                         
                         for (let day = 1; day <= daysInMonth; day++) {
-                            const value = schedule[emp.name][day] || '';
+                            const value = schedule[emp.name] && schedule[emp.name][day] || '';
                             row.push(value);
                             
                             if (value === 'D' || value === 'N') {
