@@ -1961,3 +1961,1800 @@
     </script>
 </body>
 </html>
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
+
+        .employees-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .employee-card {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .employee-card-header {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .employee-card span {
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        /* Badge styles for group display */
+        .group-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 700;
+            margin-left: 6px;
+            color: white;
+        }
+
+        .group-1 { background: #667eea; }
+        .group-2 { background: #28a745; }
+        .group-3 { background: #ffc107; color: #333; }
+
+        .group-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .group-header {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .employee-card button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        /* Added checkbox container for extra hours and weekday-only */
+        .employee-options {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
+            font-size: 0.75em;
+        }
+
+        .employee-options label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .employee-options input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+
+        /* Schedule table optimized for full month view */
+        .schedule-table {
+            overflow-x: auto;
+            margin-top: 15px;
+            max-height: calc(100vh - 450px);
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-size: 11px;
+        }
+
+        th, td {
+            padding: 6px 4px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-size: 10px;
+        }
+
+        td {
+            min-width: 35px;
+            font-size: 11px;
+        }
+
+        .day-cell {
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .day-cell:hover {
+            background: #f0f0f0;
+        }
+
+        .day-cell.holiday {
+            background: #ffe0e0;
+        }
+
+        .day-cell.selected {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .shift-D {
+            background: #fff3cd;
+            font-weight: bold;
+        }
+
+        .shift-N {
+            background: #cfe2ff;
+            font-weight: bold;
+        }
+
+        .shift-V {
+            background: #d1e7dd;
+        }
+
+        .shift-BM {
+            background: #f8d7da;
+        }
+
+        .shift-PR {
+            background: #e7d4f5;
+        }
+
+        .shift-C {
+            background: #cff4fc;
+        }
+
+        .shift-asterisk {
+            background: #ffeaa7;
+        }
+
+        /* Add new styles for position color coding */
+        .position-badge {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 4px;
+            border: 1px solid #333;
+        }
+
+        .weekend-column {
+            background: #ffcccc !important; /* Changed to a lighter red for better contrast */
+        }
+
+        .holiday-column {
+            background: #ffdddd !important; /* Slightly different shade for holidays */
+        }
+
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .modal-header h3 {
+            color: #667eea;
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        .close {
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .shift-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .shift-btn {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+
+        .shift-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .alert-success {
+            background: #d1e7dd;
+            color: #0f5132;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #664d03;
+            border-left: 4px solid #ffc107;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #842029;
+            border-left: 4px solid #dc3545;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.4em;
+            }
+
+            .employees-list {
+                grid-template-columns: 1fr;
+            }
+
+            .shift-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            th, td {
+                padding: 4px 2px;
+                font-size: 9px;
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗓️ Generador de Cuadrantes de Turnos</h1>
+            <p>Sistema automático de planificación de turnos 2026-2050</p>
+        </div>
+
+        <div class="content">
+            <!-- Leyenda -->
+            <div class="legend">
+                <h2>📋 Guía de Uso</h2>
+                <ul>
+                    <li><strong>Paso 1:</strong> Añade empleados a tu plantilla usando el formulario</li>
+                    <li><strong>Paso 2:</strong> Selecciona el mes y año del cuadrante</li>
+                    <li><strong>Paso 3:</strong> Define las reglas de trabajo (días seguidos y días libres)</li>
+                    <li><strong>Paso 4:</strong> Marca estados especiales antes de generar (opcional)</li>
+                    <li><strong>Paso 5:</strong> Genera el cuadrante automáticamente o complétalo manualmente</li>
+                    <li><strong>Paso 6:</strong> Edita el cuadrante si es necesario</li>
+                    <li><strong>Paso 7:</strong> Exporta a PDF o Excel</li>
+                </ul>
+                <h2 style="margin-top: 15px;">🏷️ Códigos y Símbolos</h2>
+                <ul>
+                    <li><strong>D:</strong> Turno de Día (7:00 - 19:00)</li>
+                    <li><strong>N:</strong> Turno de Noche (19:00 - 7:00)</li>
+                    <li><strong>*:</strong> Petición de día del empleado</li>
+                    <li><strong>V:</strong> Vacaciones</li>
+                    <li><strong>BM:</strong> Baja Médica</li>
+                    <li><strong>PR:</strong> Permiso Retribuido</li>
+                    <li><strong>C:</strong> Curso</li>
+                    <li><strong>L:</strong> Día Libre</li>
+                    <li><strong>🎉:</strong> Festivo Nacional o Comunidad de Madrid</li>
+                </ul>
+                <h2 style="margin-top: 15px;">⚙️ Reglas de Cobertura</h2>
+                <ul>
+                    <li><strong>Lunes a Viernes - Turno Día:</strong></li>
+                    <li style="padding-left: 20px;">• Grupo 1: 3 trabajadores (1 fijo + 2 rotativos)</li>
+                    <li style="padding-left: 20px;">• Grupo 2: 1 trabajador</li>
+                    <li style="padding-left: 20px;">• Grupo 3: 1 trabajador</li>
+                    <li><strong>Lunes a Viernes - Turno Noche:</strong></li>
+                    <li style="padding-left: 20px;">• Grupo 1: 2 trabajadores</li>
+                    <li style="padding-left: 20px;">• Grupo 2: 1 trabajador</li>
+                    <li style="padding-left: 20px;">• Grupo 3: 1 trabajador</li>
+                    <li><strong>Fines de Semana/Festivos - Turno Día:</strong></li>
+                    <li style="padding-left: 20px;">• Grupo 1: 1 trabajador</li>
+                    <li style="padding-left: 20px;">• Grupo 2: 2 trabajadores</li>
+                    <li style="padding-left: 20px;">• Grupo 3: 1 trabajador</li>
+                    <li><strong>Fines de Semana/Festivos - Turno Noche:</strong></li>
+                    <li style="padding-left: 20px;">• Grupo 1: 2 trabajadores</li>
+                    <li style="padding-left: 20px;">• Grupo 2: 1 trabajador</li>
+                    <li style="padding-left: 20px;">• Grupo 3: 1 trabajador</li>
+                </ul>
+                <h2 style="margin-top: 15px;">⏰ Horas de Trabajo</h2>
+                <ul>
+                    <li><strong>Horas mínimas:</strong> Todos los empleados deben hacer mínimo 168 horas al mes</li>
+                    <li><strong>Horas extra:</strong> Una vez alcanzado el mínimo, las horas restantes se reparten entre empleados que acepten horas extra</li>
+                    <li><strong>Trabajador L-V (Grupo 1):</strong> Puedes marcar 1 trabajador del Grupo 1 que solo trabaja lunes a viernes y libra fines de semana y festivos</li>
+                    <li><strong>Resto de trabajadores:</strong> Trabajan de lunes a domingo, incluidos festivos</li>
+                    <li><strong>Descansos:</strong> Se respeta el estatuto de seguridad privada (mínimo 3 días de descanso entre turnos)</li>
+                </ul>
+            </div>
+
+            <!-- Sección 1: Plantilla de Empleados -->
+            <div class="section">
+                <h3>👥 Plantilla de Empleados</h3>
+                <div class="form-group">
+                    <label for="employeeName">Nombre del Empleado:</label>
+                    <input type="text" id="employeeName" placeholder="Ej: Juan Pérez">
+                </div>
+                <!-- Add group selection dropdown -->
+                <div class="form-group">
+                    <label for="employeeGroup">Grupo:</label>
+                    <select id="employeeGroup">
+                        <option value="1">Grupo 1 (Máx. 15 trabajadores)</option>
+                        <option value="2">Grupo 2 (Máx. 5 trabajadores)</option>
+                        <option value="3">Grupo 3 (Máx. 4 trabajadores)</option>
+                    </select>
+                </div>
+                <!-- Add position selection with color -->
+                <div class="form-group">
+                    <label for="employeePosition">Puesto:</label>
+                    <input type="text" id="employeePosition" placeholder="Ej: Enfermero, Auxiliar, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="employeeColor">Color del puesto:</label>
+                    <input type="color" id="employeeColor" value="#667eea">
+                </div>
+                <button class="btn btn-primary" onclick="addEmployee()">➕ Añadir Empleado</button>
+                
+                <!-- Updated employee list display with groups -->
+                <div id="employeeList"></div>
+            </div>
+
+            <!-- Sección 2: Configuración del Cuadrante -->
+            <div class="section">
+                <h3>⚙️ Configuración del Cuadrante</h3>
+                <div class="rules-grid">
+                    <div class="form-group">
+                        <label for="selectedMonth">Mes:</label>
+                        <select id="selectedMonth">
+                            <option value="0">Enero</option>
+                            <option value="1">Febrero</option>
+                            <option value="2">Marzo</option>
+                            <option value="3">Abril</option>
+                            <option value="4">Mayo</option>
+                            <option value="5">Junio</option>
+                            <option value="6">Julio</option>
+                            <option value="7">Agosto</option>
+                            <option value="8">Septiembre</option>
+                            <option value="9">Octubre</option>
+                            <option value="10">Noviembre</option>
+                            <option value="11">Diciembre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="selectedYear">Año:</label>
+                        <select id="selectedYear"></select>
+                    </div>
+                    <!-- Added checkbox to make work/rest rules optional -->
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="useWorkRestRules" style="width: auto;">
+                            Aplicar reglas de días consecutivos (trabajo/descanso)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="workDays">Días seguidos a trabajar (mínimo):</label>
+                        <input type="number" id="workDays" value="3" min="1" max="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="restDays">Días libres consecutivos (mínimo):</label>
+                        <input type="number" id="restDays" value="2" min="1" max="7">
+                    </div>
+                </div>
+                
+                <button class="btn btn-success" onclick="generateSchedule()">🚀 Generar Cuadrante Automático</button>
+                <button class="btn btn-warning" onclick="createEmptySchedule()">📝 Crear Cuadrante Vacío (Manual)</button>
+            </div>
+
+            <!-- Loading -->
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Generando cuadrante...</p>
+            </div>
+
+            <!-- Alertas -->
+            <div id="alerts"></div>
+
+            <!-- Sección 3: Cuadrante -->
+            <div id="scheduleSection" class="section" style="display: none;">
+                <h3>📅 Cuadrante de Turnos</h3>
+                <div style="margin-bottom: 12px;">
+                    <button class="btn btn-danger" onclick="exportToPDF()">📄 Exportar a PDF</button>
+                    <button class="btn btn-success" onclick="exportToExcel()">📊 Exportar a Excel</button>
+                    <button class="btn btn-info" onclick="enableEditMode()">✏️ Modo Edición</button>
+                </div>
+                <div class="schedule-table">
+                    <table id="scheduleTable"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar celda -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Turno</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <p id="modalInfo"></p>
+            <div class="shift-options">
+                <button class="shift-btn shift-D" onclick="setCellValue('D')">D - Día</button>
+                <button class="shift-btn shift-N" onclick="setCellValue('N')">N - Noche</button>
+                <button class="shift-btn" onclick="setCellValue('L')">L - Libre</button>
+                <button class="shift-btn shift-asterisk" onclick="setCellValue('*')">* - Petición</button>
+                <button class="shift-btn shift-V" onclick="setCellValue('V')">V - Vacaciones</button>
+                <button class="shift-btn shift-BM" onclick="setCellValue('BM')">BM - Baja</button>
+                <button class="shift-btn shift-PR" onclick="setCellValue('PR')">PR - Permiso</button>
+                <button class="shift-btn shift-C" onclick="setCellValue('C')">C - Curso</button>
+                <button class="shift-btn" onclick="setCellValue('')">🗑️ Limpiar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let employees = [
+            // Group 1 - 11 employees (1 will be set as fixed weekdays-only)
+            { name: "Empleado 1", group: 1, position: "Puesto 1", color: "#667eea", wantsExtraHours: false, weekdaysOnly: true, shiftPreference: 'D' },
+            { name: "Empleado 2", group: 1, position: "Puesto 1", color: "#667eea", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 3", group: 1, position: "Puesto 1", color: "#667eea", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 4", group: 1, position: "Puesto 1", color: "#667eea", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 5", group: 1, position: "Puesto 1", color: "#667eea", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 6", group: 1, position: "Puesto 1", color: "#667eea", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 7", group: 1, position: "Puesto 1", color: "#667eea", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 8", group: 1, position: "Puesto 1", color: "#667eea", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 9", group: 1, position: "Puesto 1", color: "#667eea", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 10", group: 1, position: "Puesto 1", color: "#667eea", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 11", group: 1, position: "Puesto 1", color: "#667eea", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            // Group 2 - 5 employees
+            { name: "Empleado 12", group: 2, position: "Puesto 2", color: "#48bb78", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 13", group: 2, position: "Puesto 2", color: "#48bb78", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 14", group: 2, position: "Puesto 2", color: "#48bb78", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 15", group: 2, position: "Puesto 2", color: "#48bb78", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 16", group: 2, position: "Puesto 2", color: "#48bb78", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            // Group 3 - 4 employees
+            { name: "Empleado 17", group: 3, position: "Puesto 3", color: "#ed8936", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 18", group: 3, position: "Puesto 3", color: "#ed8936", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 19", group: 3, position: "Puesto 3", color: "#ed8936", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' },
+            { name: "Empleado 20", group: 3, position: "Puesto 3", color: "#ed8936", wantsExtraHours: false, weekdaysOnly: false, shiftPreference: 'any' }
+        ];
+        let schedule = {};
+        let currentMonth = 0;
+        let currentYear = 2026;
+        let editMode = false;
+        let selectedCell = null;
+
+        const GROUP_LIMITS = {
+            1: 15,
+            2: 5,
+            3: 4
+        };
+
+        const MIN_HOURS_PER_MONTH = 168; // Minimum hours per employee per month
+
+        // Festivos de España y Madrid
+        const holidays = {
+            // Festivos nacionales fijos
+            fixed: [
+                { month: 0, day: 1, name: "Año Nuevo" },
+                { month: 0, day: 6, name: "Día de Reyes" },
+                { month: 4, day: 1, name: "Día del Trabajo" },
+                { month: 7, day: 15, name: "Asunción de la Virgen" },
+                { month: 9, day: 12, name: "Fiesta Nacional de España" },
+                { month: 10, day: 1, name: "Todos los Santos" },
+                { month: 11, day: 6, name: "Día de la Constitución" },
+                { month: 11, day: 8, name: "Inmaculada Concepción" },
+                { month: 11, day: 25, name: "Navidad" },
+                // Madrid
+                { month: 4, day: 2, name: "Fiesta de la Comunidad de Madrid" },
+                { month: 4, day: 15, name: "San Isidro" }
+            ],
+            // Festivos móviles (Semana Santa principalmente)
+            movable: {
+                2026: [
+                    { month: 3, day: 3, name: "Viernes Santo" },
+                    { month: 3, day: 6, name: "Lunes de Pascua" }
+                ],
+                2027: [
+                    { month: 2, day: 26, name: "Viernes Santo" },
+                    { month: 2, day: 29, name: "Lunes de Pascua" }
+                ],
+                2028: [
+                    { month: 3, day: 14, name: "Viernes Santo" },
+                    { month: 3, day: 17, name: "Lunes de Pascua" }
+                ],
+                2029: [
+                    { month: 2, day: 30, name: "Viernes Santo" },
+                    { month: 3, day: 2, name: "Lunes de Pascua" }
+                ],
+                2030: [
+                    { month: 3, day: 19, name: "Viernes Santo" },
+                    { month: 3, day: 22, name: "Lunes de Pascua" }
+                ]
+            }
+        };
+
+        // Inicialización
+        function init() {
+            populateYears();
+            const now = new Date();
+            document.getElementById('selectedMonth').value = now.getMonth();
+            document.getElementById('selectedYear').value = now.getFullYear() >= 2026 ? now.getFullYear() : 2026;
+        }
+
+        function populateYears() {
+            const yearSelect = document.getElementById('selectedYear');
+            for (let year = 2026; year <= 2050; year++) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            }
+        }
+
+        function showAlert(message, type) {
+            const alertsDiv = document.getElementById('alerts');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            alertsDiv.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        // Gestión de empleados
+        function addEmployee() {
+            const nameInput = document.getElementById('employeeName');
+            const groupSelect = document.getElementById('employeeGroup');
+            const positionInput = document.getElementById('employeePosition');
+            const colorInput = document.getElementById('employeeColor');
+            
+            const name = nameInput.value.trim();
+            const group = parseInt(groupSelect.value);
+            const position = positionInput.value.trim() || 'Sin puesto';
+            const color = colorInput.value;
+            
+            if (!name) {
+                showAlert('Por favor, introduce un nombre válido', 'warning');
+                return;
+            }
+            
+            if (employees.some(emp => emp.name === name)) {
+                showAlert('Este empleado ya existe', 'warning');
+                return;
+            }
+            
+            const groupCount = employees.filter(emp => emp.group === group).length;
+            if (groupCount >= GROUP_LIMITS[group]) {
+                showAlert(`El Grupo ${group} ya tiene el máximo de trabajadores (${GROUP_LIMITS[group]})`, 'error');
+                return;
+            }
+
+            employees.push({ 
+                name, 
+                group,
+                position,
+                color,
+                wantsExtraHours: false,
+                weekdaysOnly: false,
+                shiftPreference: 'any'
+            });
+            // </CHANGE>
+            
+            nameInput.value = '';
+            positionInput.value = '';
+            
+            renderEmployeeList();
+            showAlert(`Empleado "${name}" añadido correctamente`, 'success');
+        }
+
+        function changeShiftPreference(empName, preference) {
+            const emp = employees.find(e => e.name === empName);
+            if (emp) {
+                emp.shiftPreference = preference;
+                renderEmployeeList();
+                showAlert(`Preferencia de turno actualizada para ${empName}`, 'success');
+            }
+        }
+        // </CHANGE>
+
+        function deleteSelectedEmployees() {
+            const checkboxes = document.querySelectorAll('.employee-checkbox:checked');
+            if (checkboxes.length === 0) {
+                showAlert('Selecciona al menos un empleado para eliminar', 'warning');
+                return;
+            }
+            
+            const namesToDelete = Array.from(checkboxes).map(cb => cb.getAttribute('data-name'));
+            
+            if (confirm(`¿Estás seguro de eliminar ${namesToDelete.length} empleado(s)?`)) {
+                employees = employees.filter(emp => !namesToDelete.includes(emp.name));
+                renderEmployeeList();
+                showAlert(`${namesToDelete.length} empleado(s) eliminado(s)`, 'success');
+            }
+        }
+        // </CHANGE>
+
+        function renderEmployeeList() {
+            const container = document.getElementById('employeeList');
+            container.innerHTML = '';
+            
+            for (let groupNum = 1; groupNum <= 3; groupNum++) {
+                const groupEmployees = employees.filter(emp => emp.group === groupNum);
+                
+                if (groupEmployees.length > 0) {
+                    const groupDiv = document.createElement('div');
+                    groupDiv.style.marginBottom = '20px';
+                    
+                    const groupHeader = document.createElement('div');
+                    groupHeader.innerHTML = `
+                        <strong style="color: ${groupNum === 1 ? '#6366f1' : groupNum === 2 ? '#10b981' : '#fb923c'};">
+                            GRUPO ${groupNum}
+                        </strong>
+                        <span style="margin-left: 10px; color: #666;">(${groupEmployees.length}/${GROUP_LIMITS[groupNum]})</span>
+                    `;
+                    groupHeader.style.marginBottom = '10px';
+                    groupHeader.style.fontSize = '18px';
+                    groupDiv.appendChild(groupHeader);
+                    
+                    groupEmployees.forEach(emp => {
+                        const empDiv = document.createElement('div');
+                        empDiv.style.cssText = 'display: flex; align-items: center; gap: 15px; padding: 12px; background: #f9fafb; border-radius: 8px; margin-bottom: 8px; flex-wrap: wrap;';
+                        
+                        const positionBadge = `<span style="display: inline-block; width: 16px; height: 16px; border-radius: 50%; background: ${emp.color}; border: 2px solid white; box-shadow: 0 0 3px rgba(0,0,0,0.3);"></span>`;
+                        
+                        const weekdaysIcon = emp.weekdaysOnly ? ' 📅' : '';
+                        const extraHoursIcon = emp.wantsExtraHours ? ' ⏰' : '';
+                        const shiftIcon = emp.shiftPreference === 'D' ? ' ☀️' : emp.shiftPreference === 'N' ? ' 🌙' : '';
+                        
+                        empDiv.innerHTML = `
+                            <input type="checkbox" class="employee-checkbox" data-name="${emp.name}" style="width: 18px; height: 18px; cursor: pointer;">
+                            <div style="flex: 1; min-width: 150px;">
+                                ${positionBadge}
+                                <strong style="margin-left: 8px;">${emp.name}</strong>${weekdaysIcon}${extraHoursIcon}${shiftIcon}
+                                <div style="font-size: 12px; color: #666; margin-left: 24px;">${emp.position}</div>
+                            </div>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 13px;">
+                                <input type="checkbox" ${emp.weekdaysOnly ? 'checked' : ''} 
+                                    onchange="toggleWeekdaysOnly('${emp.name}')" 
+                                    style="cursor: pointer;">
+                                Solo L-V
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 13px;">
+                                <input type="checkbox" ${emp.wantsExtraHours ? 'checked' : ''} 
+                                    onchange="toggleExtraHours('${emp.name}')" 
+                                    style="cursor: pointer;">
+                                Horas Extra
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 13px;">
+                                Prefiere:
+                                <select onchange="changeShiftPreference('${emp.name}', this.value)" 
+                                    style="padding: 4px 8px; border-radius: 4px; border: 1px solid #d1d5db; cursor: pointer;">
+                                    <option value="any" ${emp.shiftPreference === 'any' ? 'selected' : ''}>Cualquiera</option>
+                                    <option value="D" ${emp.shiftPreference === 'D' ? 'selected' : ''}>Día ☀️</option>
+                                    <option value="N" ${emp.shiftPreference === 'N' ? 'selected' : ''}>Noche 🌙</option>
+                                </select>
+                            </label>
+                            <button onclick="editEmployeePosition('${emp.name}')" 
+                                style="padding: 6px 12px; background: #6366f1; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px;">
+                                Editar Puesto
+                            </button>
+                        `;
+                        
+                        groupDiv.appendChild(empDiv);
+                    });
+                    
+                    container.appendChild(groupDiv);
+                }
+            }
+
+            if (employees.length > 0) {
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = '🗑️ Eliminar Seleccionados';
+                deleteBtn.className = 'btn btn-danger';
+                deleteBtn.onclick = deleteSelectedEmployees;
+                deleteBtn.style.marginTop = '15px';
+                container.appendChild(deleteBtn);
+            }
+            // </CHANGE>
+        }
+
+        function removeEmployee(index) {
+            const employee = employees[index];
+            employees.splice(index, 1);
+            delete schedule[employee.name];
+            renderEmployeeList();
+            showAlert(`Empleado "${employee.name}" eliminado`, 'success');
+        }
+
+        function toggleExtraHours(empName) {
+            const emp = employees.find(e => e.name === empName);
+            if (emp) {
+                emp.wantsExtraHours = !emp.wantsExtraHours;
+                renderEmployeeList();
+                showAlert(`Horas extra para ${empName} ${emp.wantsExtraHours ? 'activadas' : 'desactivadas'}`, 'success');
+            }
+        }
+
+        function toggleWeekdaysOnly(empName) {
+            const emp = employees.find(e => e.name === empName);
+            
+            if (emp) {
+                // Only one employee in Group 1 can be weekdays-only
+                if (!emp.weekdaysOnly && emp.group === 1) {
+                    const hasWeekdayWorker = employees.some(e => e.group === 1 && e.weekdaysOnly && e.name !== empName);
+                    if (hasWeekdayWorker) {
+                        showAlert('Ya hay un trabajador del Grupo 1 marcado como Lunes-Viernes', 'warning');
+                        renderEmployeeList(); // Re-render to restore original state
+                        return;
+                    }
+                }
+                
+                emp.weekdaysOnly = !emp.weekdaysOnly;
+                renderEmployeeList();
+                showAlert(`Trabajo solo L-V para ${empName} ${emp.weekdaysOnly ? 'activado' : 'desactivado'}`, 'success');
+            }
+        }
+        
+        function editEmployeePosition(empName) {
+            const emp = employees.find(e => e.name === empName);
+            if (!emp) return;
+
+            const newPosition = prompt(`Introduce el nuevo puesto para ${empName}:`, emp.position);
+            if (newPosition !== null && newPosition.trim() !== '') {
+                emp.position = newPosition.trim();
+                renderEmployeeList();
+                showAlert(`Puesto de ${empName} actualizado a "${emp.position}"`, 'success');
+            }
+        }
+
+        // Verificar si es festivo
+        function isHoliday(year, month, day) {
+            // Festivos fijos
+            const isFixed = holidays.fixed.some(h => h.month === month && h.day === day);
+            
+            // Festivos móviles
+            const yearHolidays = holidays.movable[year] || [];
+            const isMovable = yearHolidays.some(h => h.month === month && h.day === day);
+            
+            return isFixed || isMovable;
+        }
+
+        function isWeekend(year, month, day) {
+            const date = new Date(year, month, day);
+            const dayOfWeek = date.getDay();
+            return dayOfWeek === 0 || dayOfWeek === 6; // Sunday or Saturday
+        }
+
+        function getRequiredStaff(isWeekendOrHoliday, shift) {
+            if (shift === 'D') {
+                // Day shift
+                if (isWeekendOrHoliday) {
+                    // Weekend/Holiday day: 1 from group 1, 2 from group 2, 1 from group 3
+                    return { 1: 1, 2: 2, 3: 1 };
+                } else {
+                    // Weekday day: 3 from group 1 (1 fixed + 2 rotative), 1 from group 2, 1 from group 3
+                    return { 1: 3, 2: 1, 3: 1 };
+                }
+            } else if (shift === 'N') {
+                // Night shift: 2 from group 1, 1 from group 2, 1 from group 3 (all days)
+                return { 1: 2, 2: 1, 3: 1 };
+            }
+            return { 1: 0, 2: 0, 3: 0 };
+        }
+
+        function canWorkOnDay(employeeName, day) {
+            const useWorkRestRules = document.getElementById('useWorkRestRules').checked;
+            const employee = employees.find(e => e.name === employeeName);
+            
+            // Fixed employee (weekdays only) is exempt from consecutive days rule
+            if (employee && employee.weekdaysOnly && employee.group === 1) {
+                return true;
+            }
+            
+            // Always enforce 2-day minimum rest between shifts
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            // Check last 2 days for rest period
+            for (let i = 1; i <= 2; i++) {
+                let checkDay = day - i;
+                let checkMonth = currentMonth;
+                let checkYear = currentYear;
+                
+                if (checkDay <= 0) {
+                    checkMonth--;
+                    if (checkMonth < 0) {
+                        checkMonth = 11;
+                        checkYear--;
+                    }
+                    const prevMonthDays = new Date(checkYear, checkMonth + 1, 0).getDate();
+                    checkDay = prevMonthDays + checkDay;
+                }
+                
+                if (schedule[employeeName] && schedule[employeeName][checkDay]) {
+                    const prevShift = schedule[employeeName][checkDay];
+                    if (prevShift === 'D' || prevShift === 'N') {
+                        return false; // Must rest 2 days after working
+                    }
+                }
+            }
+            
+            // NEW RULE: Enforce 4 consecutive days minimum of the same shift type
+            // Count consecutive days of current shift streak
+            let consecutiveCurrentShift = 0;
+            let currentShiftType = null;
+            
+            for (let d = day - 1; d >= 1; d--) {
+                const shift = schedule[employeeName][d];
+                if (shift === 'D' || shift === 'N') {
+                    if (currentShiftType === null) {
+                        currentShiftType = shift;
+                        consecutiveCurrentShift = 1;
+                    } else if (shift === currentShiftType) {
+                        consecutiveCurrentShift++;
+                    } else {
+                        break; // Different shift type, stop counting
+                    }
+                } else if (shift === 'L') {
+                    break; // Free day, end of consecutive work
+                } else {
+                    // Other marks (V, BM, etc), continue checking
+                    continue;
+                }
+            }
+            
+            // If employee has started a shift streak but hasn't reached 4 days, they must continue
+            if (consecutiveCurrentShift > 0 && consecutiveCurrentShift < 4) {
+                // They must continue with the same shift type to reach 4 consecutive days
+                return false; // Don't assign yet, let them complete their 4-day minimum first
+            }
+            
+            if (!useWorkRestRules) {
+                return true;
+            }
+            
+            const workDays = parseInt(document.getElementById('workDays').value) || 3;
+            const restDays = parseInt(document.getElementById('restDays').value) || 2;
+            
+            let consecutiveWork = 0;
+            for (let d = day - 1; d >= Math.max(1, day - workDays); d--) {
+                if (schedule[employeeName] && (schedule[employeeName][d] === 'D' || schedule[employeeName][d] === 'N')) {
+                    consecutiveWork++;
+                } else {
+                    break;
+                }
+            }
+            
+            if (consecutiveWork >= workDays) {
+                return false;
+            }
+            
+            return true;
+        }
+        // </CHANGE>
+
+        function assignShiftsWithCoverage() {
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            const useWorkRestRules = document.getElementById('useWorkRestRules').checked;
+            
+            // Initialize schedule
+            schedule = {};
+            employees.forEach(emp => {
+                schedule[emp.name] = {};
+                for (let day = 1; day <= daysInMonth; day++) {
+                    schedule[emp.name][day] = 'L'; // Start all as free
+                }
+            });
+
+            // Track weekend coverage for each employee
+            const weekendsCovered = {};
+            employees.forEach(emp => {
+                weekendsCovered[emp.name] = 0;
+            });
+
+            // Track work blocks for each employee (to enforce 4+ consecutive days)
+            const employeeWorkBlocks = {};
+            employees.forEach(emp => {
+                employeeWorkBlocks[emp.name] = {
+                    currentBlock: 0,
+                    currentShift: null,
+                    lastWorkDay: 0
+                };
+            });
+
+            const fixedEmployee = employees.find(emp => emp.weekdaysOnly && emp.group === 1);
+            if (fixedEmployee) {
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const isWeekendDay = isWeekend(currentYear, currentMonth, day);
+                    const isHolidayDay = isHoliday(currentYear, currentMonth, day);
+                    
+                    if (!isWeekendDay && !isHolidayDay) {
+                        schedule[fixedEmployee.name][day] = 'D'; // Always day shift on weekdays
+                    }
+                }
+            }
+
+            // Separate employees by group (excluding the fixed employee for rotation)
+            const group1 = employees.filter(emp => emp.group === 1 && !(emp.weekdaysOnly && emp === fixedEmployee));
+            const group2 = employees.filter(emp => emp.group === 2);
+            const group3 = employees.filter(emp => emp.group === 3);
+
+            // Helper function to assign a work block of at least 4 consecutive days
+            const assignWorkBlock = (employee, startDay, shiftType, minDays = 4) => {
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                let assignedDays = 0;
+                
+                // Randomly decide how many days (minimum 4, maximum based on rules or random between 4-7)
+                const maxConsecutive = useWorkRestRules ? 
+                    parseInt(document.getElementById('workDays').value) || 7 : 
+                    Math.floor(Math.random() * 4) + 4; // Random 4-7 days
+                
+                const blockLength = Math.max(minDays, Math.min(maxConsecutive, Math.floor(Math.random() * 4) + 4));
+                
+                for (let i = 0; i < blockLength && (startDay + i) <= daysInMonth; i++) {
+                    const day = startDay + i;
+                    
+                    // Check if this day is already assigned
+                    if (schedule[employee.name][day] === 'L') {
+                        schedule[employee.name][day] = shiftType;
+                        assignedDays++;
+                        
+                        const isWeekendOrHoliday = isWeekend(currentYear, currentMonth, day) || 
+                                                   isHoliday(currentYear, currentMonth, day);
+                        if (isWeekendOrHoliday) {
+                            weekendsCovered[employee.name]++;
+                        }
+                    } else {
+                        break; // Stop if day is not free
+                    }
+                }
+                
+                return assignedDays;
+            };
+
+            // Helper function to check if employee needs rest days
+            const needsRest = (employeeName, day) => {
+                for (let i = 1; i <= 2; i++) {
+                    const checkDay = day - i;
+                    if (checkDay >= 1 && schedule[employeeName][checkDay]) {
+                        const shift = schedule[employeeName][checkDay];
+                        if (shift === 'D' || shift === 'N') {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            };
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const isWeekendOrHoliday = isWeekend(currentYear, currentMonth, day) || isHoliday(currentYear, currentMonth, day);
+                
+                // Get required staff for day and night shifts
+                const dayRequired = getRequiredStaff(isWeekendOrHoliday, 'D');
+                const nightRequired = getRequiredStaff(isWeekendOrHoliday, 'N');
+
+                // Helper function to prioritize by shift preference and weekend coverage
+                const sortByPreference = (employees, shift, isWeekend) => {
+                    return employees.sort((a, b) => {
+                        // If it's a weekend, prioritize those with fewer weekend days worked
+                        if (isWeekend) {
+                            if (weekendsCovered[a.name] !== weekendsCovered[b.name]) {
+                                return weekendsCovered[a.name] - weekendsCovered[b.name];
+                            }
+                        }
+                        // Then prioritize by shift preference
+                        const aPrefers = a.shiftPreference === shift || a.shiftPreference === 'any';
+                        const bPrefers = b.shiftPreference === shift || b.shiftPreference === 'any';
+                        if (aPrefers && !bPrefers) return -1;
+                        if (!aPrefers && bPrefers) return 1;
+                        return 0;
+                    });
+                };
+
+                // Process each group for day shift
+                const processGroupDayShift = (group, required, groupNum) => {
+                    let assigned = 0;
+                    let fixedCount = 0;
+                    
+                    // Count fixed employee if applicable
+                    if (groupNum === 1 && fixedEmployee && !isWeekendOrHoliday) {
+                        fixedCount = 1;
+                        assigned = 1;
+                    }
+                    
+                    const needed = required - assigned;
+                    
+                    let available = group.filter(emp => {
+                        if (schedule[emp.name][day] !== 'L') return false;
+                        if (needsRest(emp.name, day)) return false;
+                        return true;
+                    });
+                    
+                    available = sortByPreference(available, 'D', isWeekendOrHoliday);
+                    
+                    for (let i = 0; i < needed && i < available.length; i++) {
+                        const emp = available[i];
+                        
+                        // Assign a block of at least 4 consecutive days of day shift
+                        const daysAssigned = assignWorkBlock(emp, day, 'D', 4);
+                        
+                        if (daysAssigned > 0) {
+                            assigned++;
+                        }
+                    }
+                    
+                    return assigned;
+                };
+
+                // Process each group for night shift
+                const processGroupNightShift = (group, required) => {
+                    let assigned = 0;
+                    
+                    let available = group.filter(emp => {
+                        if (schedule[emp.name][day] !== 'L') return false;
+                        if (needsRest(emp.name, day)) return false;
+                        return true;
+                    });
+                    
+                    available = sortByPreference(available, 'N', isWeekendOrHoliday);
+                    
+                    for (let i = 0; i < required && i < available.length; i++) {
+                        const emp = available[i];
+                        
+                        // Assign a block of at least 4 consecutive days of night shift
+                        const daysAssigned = assignWorkBlock(emp, day, 'N', 4);
+                        
+                        if (daysAssigned > 0) {
+                            assigned++;
+                        }
+                    }
+                    
+                    return assigned;
+                };
+
+                // Assign shifts for each group
+                processGroupDayShift(group1, dayRequired[1], 1);
+                processGroupNightShift(group1, nightRequired[1]);
+                
+                processGroupDayShift(group2, dayRequired[2], 2);
+                processGroupNightShift(group2, nightRequired[2]);
+                
+                processGroupDayShift(group3, dayRequired[3], 3);
+                processGroupNightShift(group3, nightRequired[3]);
+            }
+
+            // Ensure everyone has at least one weekend off
+            employees.forEach(emp => {
+                if (weekendsCovered[emp.name] >= 4) { // If employee worked 4+ weekend days
+                    // Give them at least one full weekend off
+                    let weekendFound = false;
+                    for (let day = 1; day <= daysInMonth && !weekendFound; day++) {
+                        const date = new Date(currentYear, currentMonth, day);
+                        if (date.getDay() === 6) { // Saturday
+                            const sunday = day + 1;
+                            if (sunday <= daysInMonth) {
+                                const satValue = schedule[emp.name][day];
+                                const sunValue = schedule[emp.name][sunday];
+                                
+                                // Check if both are work days
+                                if ((satValue === 'D' || satValue === 'N') && (sunValue === 'D' || sunValue === 'N')) {
+                                    // Free up this weekend
+                                    schedule[emp.name][day] = 'L';
+                                    schedule[emp.name][sunday] = 'L';
+                                    weekendFound = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        // </CHANGE>
+
+        // Generar cuadrante automático
+        function generateSchedule() {
+            if (employees.length === 0) {
+                showAlert('Debes añadir al menos un empleado', 'error');
+                return;
+            }
+
+            currentMonth = parseInt(document.getElementById('selectedMonth').value);
+            currentYear = parseInt(document.getElementById('selectedYear').value);
+
+            document.getElementById('loading').style.display = 'block';
+
+            setTimeout(() => {
+                assignShiftsWithCoverage();
+
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                
+                // Calculate current hours for each employee
+                const hoursCount = {};
+                employees.forEach(emp => {
+                    hoursCount[emp.name] = 0;
+                    for (let day = 1; day <= daysInMonth; day++) {
+                        const value = schedule[emp.name] && schedule[emp.name][day];
+                        if (value === 'D' || value === 'N') {
+                            hoursCount[emp.name] += 12;
+                        }
+                    }
+                });
+
+                // First pass: Ensure everyone reaches 168 hours minimum
+                let attempts = 0;
+                const maxAttempts = 100;
+                while (attempts < maxAttempts) {
+                    let allAtMinimum = true;
+                    
+                    for (const emp of employees) {
+                        if (hoursCount[emp.name] < MIN_HOURS_PER_MONTH) {
+                            allAtMinimum = false;
+                            
+                            // Try to find a free day where they can work
+                            for (let day = 1; day <= daysInMonth; day++) {
+                                const currentValue = schedule[emp.name][day];
+                                
+                                if (currentValue === 'L') {
+                                    // Check if it's not a weekend/holiday for weekdays-only employees
+                                    if (emp.weekdaysOnly && (isWeekend(currentYear, currentMonth, day) || isHoliday(currentYear, currentMonth, day))) {
+                                        continue;
+                                    }
+                                    
+                                    // Check 2-day rest rule (now enforced as 2-day minimum)
+                                    if (!canWorkOnDay(emp.name, day)) {
+                                        continue;
+                                    }
+                                    
+                                    // Assign a shift (prefer day shift, or their preference)
+                                    let assignedShift = 'D'; // Default to day shift
+                                    if (emp.shiftPreference === 'N') {
+                                        assignedShift = 'N';
+                                    } else if (emp.shiftPreference === 'any') {
+                                        // If any, randomly pick, but prioritize day if no other constraints
+                                        assignedShift = Math.random() > 0.5 ? 'D' : 'N';
+                                    }
+                                    
+                                    // Ensure assignment doesn't violate rules if we pick night shift when day is preferred
+                                    if (emp.shiftPreference === 'D' && assignedShift === 'N') {
+                                        continue; // Skip if we preferred day and picked night
+                                    }
+
+                                    schedule[emp.name][day] = assignedShift;
+                                    hoursCount[emp.name] += 12;
+                                    
+                                    if (hoursCount[emp.name] >= MIN_HOURS_PER_MONTH) {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (allAtMinimum) break;
+                    attempts++;
+                }
+
+                // Second pass: Distribute extra hours to employees who want them
+                const employeesWantingExtra = employees.filter(emp => emp.wantsExtraHours);
+                
+                if (employeesWantingExtra.length > 0) {
+                    let extraHoursDistributed = 0;
+                    const maxExtraShifts = 10; // Limit extra shifts per month
+                    
+                    for (let day = 1; day <= daysInMonth; day++) {
+                        for (const emp of employeesWantingExtra) {
+                            if (hoursCount[emp.name] >= MIN_HOURS_PER_MONTH && extraHoursDistributed < maxExtraShifts * employeesWantingExtra.length) { // Cap total extra shifts
+                                const currentValue = schedule[emp.name][day];
+                                
+                                if (currentValue === 'L') {
+                                    // Check if it's not a weekend/holiday for weekdays-only employees
+                                    if (emp.weekdaysOnly && (isWeekend(currentYear, currentMonth, day) || isHoliday(currentYear, currentMonth, day))) {
+                                        continue;
+                                    }
+                                    
+                                    // Check 2-day rest rule
+                                    if (!canWorkOnDay(emp.name, day)) {
+                                        continue;
+                                    }
+                                    
+                                    // Assign a shift (prefer their preference, or random)
+                                    let assignedShift = 'D';
+                                    if (emp.shiftPreference === 'N') {
+                                        assignedShift = 'N';
+                                    } else if (emp.shiftPreference === 'any') {
+                                        assignedShift = Math.random() > 0.5 ? 'D' : 'N';
+                                    }
+
+                                    // Ensure assignment doesn't violate rules if we pick night shift when day is preferred
+                                    if (emp.shiftPreference === 'D' && assignedShift === 'N') {
+                                        continue; 
+                                    }
+
+                                    schedule[emp.name][day] = assignedShift;
+                                    hoursCount[emp.name] += 12;
+                                    extraHoursDistributed++;
+                                }
+                            }
+                        }
+                    }
+                }
+                // </CHANGE>
+
+                document.getElementById('loading').style.display = 'none';
+                renderSchedule();
+                showAlert('Cuadrante generado correctamente con reglas de cobertura y horas', 'success');
+            }, 500);
+        }
+
+        // Crear cuadrante vacío
+        function createEmptySchedule() {
+            if (employees.length === 0) {
+                showAlert('Debes añadir al menos un empleado', 'error');
+                return;
+            }
+
+            currentMonth = parseInt(document.getElementById('selectedMonth').value);
+            currentYear = parseInt(document.getElementById('selectedYear').value);
+
+            schedule = {};
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            employees.forEach(employee => {
+                schedule[employee.name] = {};
+                for (let day = 1; day <= daysInMonth; day++) {
+                    schedule[employee.name][day] = '';
+                }
+            });
+
+            renderSchedule();
+            enableEditMode();
+            showAlert('Cuadrante vacío creado. Modo edición activado', 'success');
+        }
+
+        // Renderizar cuadrante
+        function renderSchedule() {
+            const table = document.getElementById('scheduleTable');
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                               'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+            let html = '<thead><tr><th>Empleado</th>';
+            
+            // Encabezados de días
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(currentYear, currentMonth, day);
+                const dayName = ['D', 'L', 'M', 'X', 'J', 'V', 'S'][date.getDay()];
+                const holidayMark = isHoliday(currentYear, currentMonth, day) ? '🎉' : '';
+                const isWeek = isWeekend(currentYear, currentMonth, day);
+                const isHol = isHoliday(currentYear, currentMonth, day);
+                const columnClass = (isWeek || isHol) ? 'style="background: #ff6b6b; color: white;"' : ''; // Changed to a lighter red for better contrast
+                html += `<th ${columnClass}>${day}<br>${dayName}${holidayMark}</th>`;
+            }
+            
+            html += '<th style="background: #28a745;">Total<br>Horas</th>';
+            html += '</tr></thead><tbody>';
+
+            for (let groupNum = 1; groupNum <= 3; groupNum++) {
+                const groupEmployees = employees.filter(emp => emp.group === groupNum);
+                
+                if (groupEmployees.length > 0) {
+                    // Add group header row
+                    html += `<tr><td colspan="${daysInMonth + 2}" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 700; text-align: center; padding: 8px;">
+                        GRUPO ${groupNum}
+                    </td></tr>`;
+                    
+                    groupEmployees.forEach(employee => {
+                        let empNameDisplay = employee.name;
+                        if (employee.weekdaysOnly) empNameDisplay += ' 📅';
+                        if (employee.wantsExtraHours) empNameDisplay += ' ⏰';
+                        empNameDisplay += ` <span class="position-badge" style="background: ${employee.color};" title="${employee.position}"></span>`;
+                        
+                        html += `<tr><td style="font-weight: 600; background: #f8f9fa;">${empNameDisplay}</td>`;
+                        
+                        let totalHours = 0;
+                        
+                        for (let day = 1; day <= daysInMonth; day++) {
+                            const value = schedule[employee.name] && schedule[employee.name][day] || '';
+                            const isHol = isHoliday(currentYear, currentMonth, day);
+                            const isWeek = isWeekend(currentYear, currentMonth, day);
+                            const columnClass = (isWeek || isHol) ? 'weekend-column' : ''; // Changed class name to match CSS
+                            const shiftClass = value ? `shift-${value}` : '';
+                            
+                            html += `<td class="day-cell ${columnClass} ${shiftClass}" 
+                                        data-employee="${employee.name}" 
+                                        data-day="${day}"
+                                        onclick="editCell(this)">${value}</td>`;
+                            
+                            if (value === 'D' || value === 'N') {
+                                totalHours += 12;
+                            }
+                        }
+                        
+                        const bgColor = totalHours < MIN_HOURS_PER_MONTH ? '#f8d7da' : '#d1e7dd';
+                        html += `<td style="font-weight: 700; background: ${bgColor};">${totalHours}h</td>`;
+                        html += '</tr>';
+                    });
+                }
+            }
+
+            html += '</tbody>';
+            table.innerHTML = html;
+
+            document.getElementById('scheduleSection').style.display = 'block';
+        }
+
+        // Modo edición
+        function enableEditMode() {
+            editMode = !editMode;
+            const btn = event.target;
+            
+            if (editMode) {
+                btn.textContent = '✅ Guardar Cambios';
+                btn.className = 'btn btn-success';
+                showAlert('Modo edición activado. Haz clic en cualquier celda para editarla', 'success');
+            } else {
+                btn.textContent = '✏️ Modo Edición';
+                btn.className = 'btn btn-info';
+                showAlert('Cambios guardados', 'success');
+            }
+        }
+
+        // Editar celda
+        function editCell(cell) {
+            if (!editMode) return;
+
+            selectedCell = cell;
+            const employee = cell.dataset.employee;
+            const day = cell.dataset.day;
+            const date = new Date(currentYear, currentMonth, parseInt(day));
+            const dateStr = date.toLocaleDateString('es-ES', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+
+            document.getElementById('modalInfo').textContent = 
+                `Empleado: ${employee} - ${dateStr}`;
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+            selectedCell = null;
+        }
+
+        function updateEmployeeTotalHours(employeeName) {
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            let totalHours = 0;
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const value = schedule[employeeName] && schedule[employeeName][day];
+                if (value === 'D' || value === 'N') {
+                    totalHours += 12;
+                }
+            }
+            
+            // Find the total hours cell for this employee and update it
+            const table = document.getElementById('scheduleTable');
+            const rows = table.getElementsByTagName('tr');
+            
+            for (let row of rows) {
+                const firstCell = row.cells[0];
+                if (firstCell && firstCell.textContent.includes(employeeName)) {
+                    const totalCell = row.cells[row.cells.length - 1];
+                    const bgColor = totalHours < MIN_HOURS_PER_MONTH ? '#f8d7da' : '#d1e7dd';
+                    totalCell.style.background = bgColor;
+                    totalCell.textContent = `${totalHours}h`;
+                    break;
+                }
+            }
+        }
+
+        function setCellValue(value) {
+            if (!selectedCell) return;
+
+            const employee = selectedCell.dataset.employee;
+            const day = parseInt(selectedCell.dataset.day);
+
+            schedule[employee][day] = value;
+            selectedCell.textContent = value;
+            
+            // Actualizar clases
+            selectedCell.className = 'day-cell';
+            const isWeek = isWeekend(currentYear, currentMonth, day);
+            const isHol = isHoliday(currentYear, currentMonth, day);
+            if (isWeek || isHol) {
+                selectedCell.classList.add(isHol ? 'holiday-column' : 'weekend-column'); // Apply correct class based on holiday or weekend
+            }
+            if (value) {
+                selectedCell.classList.add(`shift-${value}`);
+            }
+            
+            updateEmployeeTotalHours(employee);
+            
+            closeModal();
+            showAlert('Turno actualizado', 'success');
+        }
+
+        function exportToPDF() {
+            if (!window.jspdf || !window.jspdf.jsPDF) {
+                showAlert('Error: Librería jsPDF no cargada correctamente', 'error');
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('l', 'mm', 'a3');
+            
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                               'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            // Title
+            doc.setFontSize(18);
+            doc.setFont(undefined, 'bold');
+            doc.text(`Cuadrante de Turnos - ${monthNames[currentMonth]} ${currentYear}`, doc.internal.pageSize.width / 2, 15, { align: 'center' });
+            
+            // Build headers with day names
+            const dayHeaders = [];
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(currentYear, currentMonth, day);
+                const dayName = ['D', 'L', 'M', 'X', 'J', 'V', 'S'][date.getDay()];
+                dayHeaders.push(`${day}\n${dayName}`);
+            }
+            
+            const headers = [['Empleado', 'Puesto', ...dayHeaders, 'Total\nHoras']];
+            
+            const data = [];
+            
+            // Build data rows grouped by group
+            for (let groupNum = 1; groupNum <= 3; groupNum++) {
+                const groupEmployees = employees.filter(emp => emp.group === groupNum);
+                
+                if (groupEmployees.length > 0) {
+                    // Add group header row
+                    data.push([{
+                        content: `GRUPO ${groupNum}`,
+                        colSpan: daysInMonth + 3,
+                        styles: { 
+                            fillColor: groupNum === 1 ? [99, 102, 241] : groupNum === 2 ? [16, 185, 129] : [251, 146, 60],
+                            textColor: [255, 255, 255],
+                            fontStyle: 'bold',
+                            halign: 'center'
+                        }
+                    }]);
+                    
+                    groupEmployees.forEach(emp => {
+                        const row = [
+                            { content: emp.name, styles: { fontStyle: 'bold' } },
+                            emp.position || '-'
+                        ];
+                        
+                        let totalHours = 0;
+                        
+                        for (let day = 1; day <= daysInMonth; day++) {
+                            const value = schedule[emp.name] && schedule[emp.name][day] || '';
+                            const date = new Date(currentYear, currentMonth, day);
+                            const isWeekendDay = date.getDay() === 0 || date.getDay() === 6;
+                            const isHolidayDay = holidays.fixed.some(h => h.month === currentMonth && h.day === day) || 
+                                              (holidays.movable[currentYear] && holidays.movable[currentYear].some(h => h.month === currentMonth && h.day === day));
+                            
+                            let cellStyle = {};
+                            
+                            // Color for weekends and holidays
+                            if (isWeekendDay || isHolidayDay) {
+                                cellStyle.fillColor = [255, 240, 240];
+                            }
+                            
+                            // Color for shift types
+                            if (value === 'D') {
+                                cellStyle.fillColor = [254, 252, 232];
+                                cellStyle.textColor = [133, 77, 14];
+                                totalHours += 12;
+                            } else if (value === 'N') {
+                                cellStyle.fillColor = [219, 234, 254];
+                                cellStyle.textColor = [30, 64, 175];
+                                totalHours += 12;
+                            } else if (value === 'V') {
+                                cellStyle.fillColor = [220, 252, 231];
+                                cellStyle.textColor = [21, 128, 61];
+                            } else if (value === 'BM') {
+                                cellStyle.fillColor = [254, 226, 226];
+                                cellStyle.textColor = [153, 27, 27];
+                            } else if (value === '*') {
+                                cellStyle.fillColor = [243, 232, 255];
+                                cellStyle.textColor = [107, 33, 168];
+                            } else if (value === 'L') {
+                                cellStyle.fillColor = [229, 231, 235];
+                            }
+                            
+                            row.push({ content: value, styles: cellStyle });
+                        }
+                        
+                        row.push({ 
+                            content: `${totalHours}h`, 
+                            styles: { 
+                                fillColor: [187, 247, 208],
+                                fontStyle: 'bold',
+                                halign: 'center'
+                            }
+                        });
+                        data.push(row);
+                    });
+                }
+            }
+
+            doc.autoTable({
+                head: headers,
+                body: data,
+                startY: 22,
+                styles: { 
+                    fontSize: 7,
+                    cellPadding: 1.5,
+                    halign: 'center',
+                    valign: 'middle',
+                    lineColor: [200, 200, 200],
+                    lineWidth: 0.1
+                },
+                headStyles: { 
+                    fillColor: [71, 85, 105],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                    fontSize: 7,
+                    halign: 'center'
+                },
+                columnStyles: {
+                    0: { cellWidth: 30, halign: 'left' },
+                    1: { cellWidth: 25, halign: 'left' }
+                },
+                margin: { left: 10, right: 10 },
+                tableWidth: 'auto'
+            });
+
+            doc.save(`cuadrante_${monthNames[currentMonth]}_${currentYear}.pdf`);
+            showAlert('PDF exportado correctamente', 'success');
+        }
+        // </CHANGE>
+
+        function exportToExcel() {
+            if (!window.XLSX) {
+                showAlert('Error: Librería XLSX no cargada correctamente', 'error');
+                return;
+            }
+            
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                               'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            
+            const data = [];
+            
+            // Title row
+            data.push([`Cuadrante de Turnos - ${monthNames[currentMonth]} ${currentYear}`]);
+            data.push([]);
+            
+            // Headers row
+            const headers1 = ['Empleado', 'Puesto'];
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(currentYear, currentMonth, day);
+                const dayName = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][date.getDay()];
+                headers1.push(`${day} (${dayName})`);
+            }
+            headers1.push('Total Horas');
+            data.push(headers1);
+            
+            // Data rows grouped by group
+            for (let groupNum = 1; groupNum <= 3; groupNum++) {
+                const groupEmployees = employees.filter(emp => emp.group === groupNum);
+                
+                if (groupEmployees.length > 0) {
+                    const groupRow = [`GRUPO ${groupNum}`];
+                    for (let i = 1; i < headers1.length; i++) {
+                        groupRow.push('');
+                    }
+                    data.push(groupRow);
+                    
+                    groupEmployees.forEach(emp => {
+                        const row = [emp.name, emp.position || '-'];
+                        let totalHours = 0;
+                        
+                        for (let day = 1; day <= daysInMonth; day++) {
+                            const value = schedule[emp.name] && schedule[emp.name][day] || '';
+                            row.push(value);
+                            
+                            if (value === 'D' || value === 'N') {
+                                totalHours += 12;
+                            }
+                        }
+                        
+                        row.push(`${totalHours}h`);
+                        data.push(row);
+                    });
+                }
+            }
+
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            
+            const colWidths = [{ wch: 20 }, { wch: 15 }];
+            for (let i = 0; i < daysInMonth; i++) {
+                colWidths.push({ wch: 6 });
+            }
+            colWidths.push({ wch: 12 });
+            ws['!cols'] = colWidths;
+            
+            ws['!merges'] = [
+                { s: { r: 0, c: 0 }, e: { r: 0, c: daysInMonth + 2 } }
+            ];
+            
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, `${monthNames[currentMonth]}`);
+            
+            XLSX.writeFile(wb, `cuadrante_${monthNames[currentMonth]}_${currentYear}.xlsx`);
+            showAlert('Excel exportado correctamente', 'success');
+        }
+        // </CHANGE>
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Initialize year selector and render default employees on page load
+        window.onload = function() {
+            // Populate years for the year selector
+            const yearSelect = document.getElementById('selectedYear');
+            for (let year = 2026; year <= 2050; year++) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                if (year === 2026) option.selected = true; // Set default to 2026
+                yearSelect.appendChild(option);
+            }
+            
+            // Set default month and year to current
+            const now = new Date();
+            document.getElementById('selectedMonth').value = now.getMonth();
+            document.getElementById('selectedYear').value = now.getFullYear() >= 2026 ? now.getFullYear() : 2026;
+
+            // Render default employees
+            renderEmployeeList();
+        };
+    </script>
+</body>
+</html>
